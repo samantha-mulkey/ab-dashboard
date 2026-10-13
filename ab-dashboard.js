@@ -37,17 +37,10 @@ document.addEventListener("DOMContentLoaded", function () {
   // CHART STATE
   // =====================================================
 
-  let currentChartMetric =
-    "visitors";
-
-  let currentDateRange =
-    30;
-
-  let currentChartData =
-    [];
-
-  let latestExperimentResults =
-    [];
+  let currentChartMetric = "visitors";
+  let currentDateRange = 30;
+  let currentChartData = [];
+  let latestExperimentResults = [];
 
 
   // =====================================================
@@ -60,7 +53,6 @@ document.addEventListener("DOMContentLoaded", function () {
     );
   }
 
-
   function setText(card, field, value) {
     const element = getField(card, field);
 
@@ -69,13 +61,11 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-
   function getListField(card, field) {
     return card.querySelector(
       '[data-list-field="' + field + '"]'
     );
   }
-
 
   function setListText(card, field, value) {
     const element = getListField(card, field);
@@ -85,13 +75,11 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-
   function getOverviewField(field) {
     return document.querySelector(
       '[data-overview-field="' + field + '"]'
     );
   }
-
 
   function setOverviewText(field, value) {
     const element = getOverviewField(field);
@@ -101,13 +89,11 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-
   function getSiteField(row, field) {
     return row.querySelector(
       '[data-site-field="' + field + '"]'
     );
   }
-
 
   function setSiteText(row, field, value) {
     const element = getSiteField(row, field);
@@ -116,7 +102,6 @@ document.addEventListener("DOMContentLoaded", function () {
       element.textContent = value;
     }
   }
-
 
   function getSiteDisplayName(siteId) {
     const names = {
@@ -128,21 +113,17 @@ document.addEventListener("DOMContentLoaded", function () {
     return names[siteId] || siteId;
   }
 
-
   function formatDateForSQL(date) {
     const year = date.getFullYear();
-
     const month = String(
       date.getMonth() + 1
     ).padStart(2, "0");
-
     const day = String(
       date.getDate()
     ).padStart(2, "0");
 
     return year + "-" + month + "-" + day;
   }
-
 
   function formatChartDate(dateString) {
     const parts = dateString.split("-");
@@ -182,15 +163,14 @@ document.addEventListener("DOMContentLoaded", function () {
         "[data-dashboard-open]"
       );
 
-
     function updateNavActiveState(viewName) {
       let activeSection = viewName;
 
-      // Experiment detail belongs to Experiments.
-      if (viewName === "experiment-detail") {
+      if (
+        viewName === "experiment-detail"
+      ) {
         activeSection = "experiments";
       }
-
 
       document
         .querySelectorAll(
@@ -225,7 +205,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-
     function showView(viewName) {
       views.forEach(function (view) {
 
@@ -241,18 +220,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
       });
 
-
       updateNavActiveState(
         viewName
       );
-
 
       window.scrollTo({
         top: 0,
         behavior: "smooth"
       });
     }
-
 
     openButtons.forEach(function (button) {
 
@@ -278,10 +254,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     });
 
-
-    // Default dashboard view
     showView("overview");
-
 
     window.ABDashboardShowView =
       showView;
@@ -307,7 +280,6 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-
     const labels =
       sidebar.querySelectorAll(
         '[data-sidebar-label="true"]'
@@ -328,7 +300,6 @@ document.addEventListener("DOMContentLoaded", function () {
         ".sidebar-link"
       );
 
-
     let savedState = null;
 
     try {
@@ -338,11 +309,8 @@ document.addEventListener("DOMContentLoaded", function () {
         );
     } catch (error) {}
 
-
-    // Collapsed by default.
     let isExpanded =
       savedState === "expanded";
-
 
     sidebar.style.overflow =
       "hidden";
@@ -350,24 +318,20 @@ document.addEventListener("DOMContentLoaded", function () {
     sidebar.style.transition =
       "width 300ms ease-in-out, min-width 300ms ease-in-out";
 
-
     if (toggleIcon) {
       toggleIcon.style.transition =
         "transform 300ms ease-in-out";
     }
-
 
     labels.forEach(function (label) {
       label.style.transition =
         "opacity 200ms ease, transform 200ms ease";
     });
 
-
     if (toggleLabel) {
       toggleLabel.style.transition =
         "opacity 200ms ease, transform 200ms ease";
     }
-
 
     function showLabels() {
       labels.forEach(function (label) {
@@ -384,7 +348,6 @@ document.addEventListener("DOMContentLoaded", function () {
           });
         });
       });
-
 
       if (toggleLabel) {
         toggleLabel.style.display =
@@ -407,7 +370,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
       }
     }
-
 
     function hideLabels(immediate) {
       labels.forEach(function (label) {
@@ -437,7 +399,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
       });
 
-
       if (toggleLabel) {
         if (immediate) {
           toggleLabel.style.display =
@@ -462,7 +423,6 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     }
 
-
     function applySidebarState(initialLoad) {
       if (isExpanded) {
         sidebar.style.width =
@@ -470,7 +430,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         sidebar.style.minWidth =
           SIDEBAR_EXPANDED_WIDTH;
-
 
         links.forEach(function (link) {
           link.style.justifyContent =
@@ -480,19 +439,16 @@ document.addEventListener("DOMContentLoaded", function () {
             "10px";
         });
 
-
         toggle.style.justifyContent =
           "flex-start";
 
         toggle.style.gap =
           "10px";
 
-
         if (toggleIcon) {
           toggleIcon.style.transform =
             "rotate(0deg)";
         }
-
 
         showLabels();
       } else {
@@ -504,7 +460,6 @@ document.addEventListener("DOMContentLoaded", function () {
         sidebar.style.minWidth =
           SIDEBAR_COLLAPSED_WIDTH;
 
-
         links.forEach(function (link) {
           link.style.justifyContent =
             "center";
@@ -513,20 +468,17 @@ document.addEventListener("DOMContentLoaded", function () {
             "0px";
         });
 
-
         toggle.style.justifyContent =
           "center";
 
         toggle.style.gap =
           "0px";
 
-
         if (toggleIcon) {
           toggleIcon.style.transform =
             "rotate(180deg)";
         }
       }
-
 
       toggle.setAttribute(
         "aria-expanded",
@@ -535,7 +487,6 @@ document.addEventListener("DOMContentLoaded", function () {
           : "false"
       );
     }
-
 
     toggle.addEventListener(
       "click",
@@ -559,7 +510,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
       }
     );
-
 
     applySidebarState(true);
   }
@@ -613,7 +563,6 @@ document.addEventListener("DOMContentLoaded", function () {
     return probability;
   }
 
-
   function formatStartedDate(dateString) {
     if (!dateString) {
       return "Not Started";
@@ -639,7 +588,6 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     );
   }
-
 
   function getRunningDuration(dateString) {
     if (!dateString) {
@@ -681,7 +629,6 @@ document.addEventListener("DOMContentLoaded", function () {
       ? "1 Day Running"
       : days + " Days Running";
   }
-
 
   function getStatus(
     confidence,
@@ -743,6 +690,49 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!response.ok) {
       throw new Error(
         "Supabase experiment summary request failed."
+      );
+    }
+
+    return await response.json();
+  }
+
+
+  async function getExperimentBounceSummary(
+    siteId,
+    experimentId
+  ) {
+    const response =
+      await fetch(
+        SUPABASE_URL +
+        "/rest/v1/rpc/get_ab_experiment_bounce_summary",
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "application/json",
+
+            "apikey":
+              SUPABASE_KEY
+          },
+
+          body:
+            JSON.stringify({
+              p_site_id:
+                siteId,
+
+              p_experiment_id:
+                experimentId
+            }),
+
+          cache:
+            "no-store"
+        }
+      );
+
+    if (!response.ok) {
+      throw new Error(
+        "Supabase bounce summary request failed."
       );
     }
 
@@ -967,6 +957,88 @@ document.addEventListener("DOMContentLoaded", function () {
       bName,
 
       startedAt
+    };
+  }
+
+
+  function summarizeBounce(rows) {
+    const summary = {
+      A: {
+        visitors: 0,
+        engagedVisitors: 0,
+        bouncedVisitors: 0,
+        bounceRate: 0
+      },
+
+      B: {
+        visitors: 0,
+        engagedVisitors: 0,
+        bouncedVisitors: 0,
+        bounceRate: 0
+      }
+    };
+
+
+    rows.forEach(function (row) {
+
+      if (
+        row.variant !== "A" &&
+        row.variant !== "B"
+      ) {
+        return;
+      }
+
+
+      summary[row.variant] = {
+        visitors:
+          Number(
+            row.visitors || 0
+          ),
+
+        engagedVisitors:
+          Number(
+            row.engaged_visitors || 0
+          ),
+
+        bouncedVisitors:
+          Number(
+            row.bounced_visitors || 0
+          ),
+
+        bounceRate:
+          Number(
+            row.bounce_rate || 0
+          )
+      };
+
+    });
+
+
+    const totalVisitors =
+      summary.A.visitors +
+      summary.B.visitors;
+
+    const totalBounced =
+      summary.A.bouncedVisitors +
+      summary.B.bouncedVisitors;
+
+    const overallBounceRate =
+      totalVisitors > 0
+        ? (
+            totalBounced /
+            totalVisitors
+          ) *
+          100
+        : 0;
+
+
+    return {
+      A: summary.A,
+      B: summary.B,
+
+      totalVisitors,
+      totalBounced,
+      overallBounceRate
     };
   }
 
@@ -1405,15 +1477,31 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     try {
-      const rows =
-        await getExperimentData(
-          siteId,
-          experimentId
-        );
+      const [
+        rows,
+        bounceRows
+      ] =
+        await Promise.all([
+          getExperimentData(
+            siteId,
+            experimentId
+          ),
+
+          getExperimentBounceSummary(
+            siteId,
+            experimentId
+          )
+        ]);
+
 
       const data =
         summarizeExperiment(
           rows
+        );
+
+      const bounce =
+        summarizeBounce(
+          bounceRows
         );
 
 
@@ -1450,10 +1538,6 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
 
-      // -----------------------------------------
-      // METADATA
-      // -----------------------------------------
-
       setText(
         card,
         "started-date",
@@ -1478,10 +1562,6 @@ document.addEventListener("DOMContentLoaded", function () {
         goalName
       );
 
-
-      // -----------------------------------------
-      // VARIANT A
-      // -----------------------------------------
 
       setText(
         card,
@@ -1513,13 +1593,13 @@ document.addEventListener("DOMContentLoaded", function () {
       setText(
         card,
         "a-bounce-rate",
-        "—"
+        bounce.A.visitors > 0
+          ? bounce.A.bounceRate
+              .toFixed(2) +
+            "%"
+          : "—"
       );
 
-
-      // -----------------------------------------
-      // VARIANT B
-      // -----------------------------------------
 
       setText(
         card,
@@ -1551,13 +1631,13 @@ document.addEventListener("DOMContentLoaded", function () {
       setText(
         card,
         "b-bounce-rate",
-        "—"
+        bounce.B.visitors > 0
+          ? bounce.B.bounceRate
+              .toFixed(2) +
+            "%"
+          : "—"
       );
 
-
-      // -----------------------------------------
-      // TRAFFIC SPLIT
-      // -----------------------------------------
 
       let aTraffic = 50;
       let bTraffic = 50;
@@ -1626,10 +1706,6 @@ document.addEventListener("DOMContentLoaded", function () {
           "%";
       }
 
-
-      // -----------------------------------------
-      // LEADER / LIFT
-      // -----------------------------------------
 
       let leaderRate = 0;
       let otherRate = 0;
@@ -1714,10 +1790,6 @@ document.addEventListener("DOMContentLoaded", function () {
         );
       }
 
-
-      // -----------------------------------------
-      // CONFIDENCE
-      // -----------------------------------------
 
       let confidence = 50;
 
@@ -1880,7 +1952,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
 
-  function updateOverview(
+  async function updateOverview(
     experimentResults
   ) {
     const validResults =
@@ -1890,10 +1962,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       );
 
-
-    // -----------------------------------------
-    // OVERALL TOTALS
-    // -----------------------------------------
 
     let totalVisitors = 0;
     let totalConversions = 0;
@@ -1943,15 +2011,76 @@ document.addEventListener("DOMContentLoaded", function () {
     );
 
 
-    setOverviewText(
-      "bounce-rate",
-      "—"
-    );
+    // -----------------------------------------
+    // OVERALL BOUNCE RATE
+    // -----------------------------------------
+
+    try {
+      const bounceSets =
+        await Promise.all(
+          validResults.map(
+            function (result) {
+              return getExperimentBounceSummary(
+                result.siteId,
+                result.experimentId
+              );
+            }
+          )
+        );
 
 
-    // -----------------------------------------
-    // EXPERIMENT COUNTS
-    // -----------------------------------------
+      let bounceVisitors = 0;
+      let bouncedVisitors = 0;
+
+
+      bounceSets.forEach(
+        function (rows) {
+          const summary =
+            summarizeBounce(
+              rows
+            );
+
+          bounceVisitors +=
+            summary.totalVisitors;
+
+          bouncedVisitors +=
+            summary.totalBounced;
+        }
+      );
+
+
+      const overallBounce =
+        bounceVisitors > 0
+          ? (
+              bouncedVisitors /
+              bounceVisitors
+            ) *
+            100
+          : 0;
+
+
+      setOverviewText(
+        "bounce-rate",
+        bounceVisitors > 0
+          ? overallBounce
+              .toFixed(2) +
+            "%"
+          : "—"
+      );
+
+    } catch (error) {
+
+      console.error(
+        "Overview bounce rate error:",
+        error
+      );
+
+      setOverviewText(
+        "bounce-rate",
+        "—"
+      );
+    }
+
 
     const totalTests =
       validResults.length;
@@ -1983,10 +2112,6 @@ document.addEventListener("DOMContentLoaded", function () {
         .toLocaleString()
     );
 
-
-    // -----------------------------------------
-    // TOP PERFORMING EXPERIMENT
-    // -----------------------------------------
 
     let topExperiment =
       null;
@@ -2071,10 +2196,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     }
 
-
-    // -----------------------------------------
-    // SITE PERFORMANCE
-    // -----------------------------------------
 
     const siteTotals = {};
 
@@ -2314,6 +2435,24 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
 
+  function formatChartMetricValue(
+    value
+  ) {
+    if (
+      currentChartMetric ===
+      "conversion-rate"
+    ) {
+      return Number(value)
+        .toFixed(2) +
+        "%";
+    }
+
+
+    return Number(value)
+      .toLocaleString();
+  }
+
+
   function getChartColor() {
     const activeTab =
       document.querySelector(
@@ -2511,6 +2650,156 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   // =====================================================
+  // CHART TOOLTIP
+  // =====================================================
+
+  function hideChartTooltip() {
+    const tooltip =
+      document.querySelector(
+        '[data-chart-tooltip="true"]'
+      );
+
+    const hoverLine =
+      document.querySelector(
+        '[data-chart-hover-line="true"]'
+      );
+
+
+    if (tooltip) {
+      tooltip.style.display =
+        "none";
+    }
+
+
+    if (hoverLine) {
+      hoverLine.style.display =
+        "none";
+    }
+
+
+    document
+      .querySelectorAll(
+        "[data-chart-node]"
+      )
+      .forEach(function (node) {
+        node.setAttribute(
+          "r",
+          "4"
+        );
+      });
+  }
+
+
+  function showChartTooltip(
+    node,
+    row,
+    value
+  ) {
+    const tooltip =
+      document.querySelector(
+        '[data-chart-tooltip="true"]'
+      );
+
+    const valueElement =
+      document.querySelector(
+        '[data-chart-tooltip-value="true"]'
+      );
+
+    const dateElement =
+      document.querySelector(
+        '[data-chart-tooltip-date="true"]'
+      );
+
+    const hoverLine =
+      document.querySelector(
+        '[data-chart-hover-line="true"]'
+      );
+
+    const plot =
+      document.querySelector(
+        ".overview-chart-plot"
+      );
+
+
+    if (
+      !tooltip ||
+      !plot
+    ) {
+      return;
+    }
+
+
+    if (valueElement) {
+      valueElement.textContent =
+        formatChartMetricValue(
+          value
+        );
+    }
+
+
+    if (dateElement) {
+      dateElement.textContent =
+        formatChartDate(
+          row.day
+        );
+    }
+
+
+    const nodeRect =
+      node.getBoundingClientRect();
+
+    const plotRect =
+      plot.getBoundingClientRect();
+
+
+    const centerX =
+      nodeRect.left -
+      plotRect.left +
+      nodeRect.width / 2;
+
+
+    const centerY =
+      nodeRect.top -
+      plotRect.top +
+      nodeRect.height / 2;
+
+
+    tooltip.style.display =
+      "block";
+
+
+    tooltip.style.left =
+      centerX +
+      "px";
+
+
+    tooltip.style.top =
+      centerY +
+      "px";
+
+
+    tooltip.style.transform =
+      "translate(-50%, calc(-100% - 12px))";
+
+
+    if (hoverLine) {
+      hoverLine.style.display =
+        "block";
+
+      hoverLine.style.left =
+        centerX +
+        "px";
+    }
+
+
+    node.setAttribute(
+      "r",
+      "6"
+    );
+  }
+
+
+  // =====================================================
   // SVG CHART
   // =====================================================
 
@@ -2528,6 +2817,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
       return;
     }
+
+
+    hideChartTooltip();
 
 
     const placeholder =
@@ -2649,7 +2941,9 @@ document.addEventListener("DOMContentLoaded", function () {
           return {
             x,
             y,
-            value
+            value,
+            row:
+              chartData[index]
           };
 
         }
@@ -2683,34 +2977,34 @@ document.addEventListener("DOMContentLoaded", function () {
       getChartColor();
 
 
-    let dots = "";
-
-
-    if (
-      points.length <= 31
-    ) {
-      dots =
-        points.map(
-          function (point) {
-            return (
-              '<circle ' +
-              'cx="' +
-              point.x.toFixed(2) +
-              '" ' +
-              'cy="' +
-              point.y.toFixed(2) +
-              '" ' +
-              'r="4" ' +
-              'fill="#ffffff" ' +
-              'stroke="' +
-              chartColor +
-              '" ' +
-              'stroke-width="2" ' +
-              'vector-effect="non-scaling-stroke" />'
-            );
-          }
-        ).join("");
-    }
+    const dots =
+      points.map(
+        function (
+          point,
+          index
+        ) {
+          return (
+            '<circle ' +
+            'data-chart-node="' +
+            index +
+            '" ' +
+            'cx="' +
+            point.x.toFixed(2) +
+            '" ' +
+            'cy="' +
+            point.y.toFixed(2) +
+            '" ' +
+            'r="4" ' +
+            'fill="#ffffff" ' +
+            'stroke="' +
+            chartColor +
+            '" ' +
+            'stroke-width="2" ' +
+            'vector-effect="non-scaling-stroke" ' +
+            'style="cursor:pointer; transition:r 120ms ease;" />'
+          );
+        }
+      ).join("");
 
 
     chartElement.innerHTML =
@@ -2741,6 +3035,55 @@ document.addEventListener("DOMContentLoaded", function () {
       dots +
 
       "</svg>";
+
+
+    chartElement
+      .querySelectorAll(
+        "[data-chart-node]"
+      )
+      .forEach(function (node) {
+
+        const index =
+          Number(
+            node.getAttribute(
+              "data-chart-node"
+            )
+          );
+
+
+        const point =
+          points[index];
+
+
+        if (!point) {
+          return;
+        }
+
+
+        node.addEventListener(
+          "mouseenter",
+          function () {
+
+            showChartTooltip(
+              node,
+              point.row,
+              point.value
+            );
+
+          }
+        );
+
+
+        node.addEventListener(
+          "mouseleave",
+          function () {
+
+            hideChartTooltip();
+
+          }
+        );
+
+      });
   }
 
 
@@ -3199,7 +3542,6 @@ document.addEventListener("DOMContentLoaded", function () {
             );
 
 
-            // Close regular Webflow dropdown.
             const toggle =
               filter.querySelector(
                 ".w-dropdown-toggle"
@@ -3282,7 +3624,7 @@ document.addEventListener("DOMContentLoaded", function () {
       experimentResults;
 
 
-    updateOverview(
+    await updateOverview(
       experimentResults
     );
 
