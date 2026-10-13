@@ -182,8 +182,8 @@ document.addEventListener("DOMContentLoaded", function () {
       const width = expanded ? SIDEBAR_EXPANDED_WIDTH : SIDEBAR_COLLAPSED_WIDTH;
       sidebar.style.width = width;
       sidebar.style.minWidth = width;
-      labels.forEach((el) => { el.style.display = expanded ? '' : 'none'; });
-      if (toggleLabel) toggleLabel.style.display = expanded ? '' : 'none';
+      labels.forEach((el) => { el.style.display = expanded ? 'block' : 'none'; });
+      if (toggleLabel) toggleLabel.style.display = expanded ? 'block' : 'none';
       links.forEach((el) => {
         el.style.justifyContent = expanded ? 'flex-start' : 'center';
         el.style.gap = expanded ? '10px' : '0px';
