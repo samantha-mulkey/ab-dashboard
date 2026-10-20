@@ -562,8 +562,12 @@ document.addEventListener("DOMContentLoaded", function () {
       setByAttr(card, 'data-ab-field', 'b-rate', `${(data.bRate * 100).toFixed(2)}%`);
       setByAttr(card, 'data-ab-field', 'b-bounce-rate', bounce.B.visitors ? `${bounce.B.rate.toFixed(2)}%` : '—');
 
-      const aTraffic = Number(experiment.traffic_a ?? 50);
-      const bTraffic = Number(experiment.traffic_b ?? (100 - aTraffic));
+      const aTraffic = data.totalVisitors
+        ? (data.aVisitors / data.totalVisitors) * 100
+        : 50;
+      const bTraffic = data.totalVisitors ?
+        ? (data.bVisitors / data.totalVisitors) * 100
+        : 50;
       setByAttr(card, 'data-ab-field', 'traffic-a', `A ${aTraffic.toFixed(0)}%`);
       setByAttr(card, 'data-ab-field', 'traffic-b', `B ${bTraffic.toFixed(0)}%`);
       const aBar = $('[data-ab-field="traffic-a-bar"]', card);
